@@ -1,7 +1,7 @@
 import App from './App'
-import HelloWorld from './HelloWorld'
+import Main from './Main'
 
 export {
   App,
-  HelloWorld
+  Main
 }
