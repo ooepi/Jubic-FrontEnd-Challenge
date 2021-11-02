@@ -1,21 +1,54 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import { Button, Icon, Typography, TextField, Table, TableBody, TableCell, TableHead, TableRow} from '@material-ui/core'
+import { nanoid } from 'nanoid';
 
-import { setText } from '../actions'
+import data from "./data.json";
 import { ApplicationState } from '../reducer'
 
 interface Props {
   text: string,
   dispatch: Dispatch
+  
 }
 
-const HelloWorld = ({ text, dispatch }: Props) => {
-  const toggleText = () => {
-    const newText = text.length === 0 ? 'World' : ''
+const initialFormData:{[name:string]: string } = Object.freeze({
+  name: '',
+  description: '',
+  comment: ''
+})
 
-    dispatch(setText(newText))
+const Main = () => {
+  const [comments, setComments] = useState(data);
+
+  const [formData, updateFormData] = useState(initialFormData);
+
+  const handleChange = (event) => {
+    event.preventDefault();
+    const fieldName = event.target.name;
+    const fieldValue = event.target.value;
+
+    const newFormData = { ...formData};
+    newFormData[fieldName] = fieldValue;
+
+    updateFormData(newFormData);
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const newComment = {
+      id: nanoid(),
+      name: formData.name,
+      description: formData.description,
+      comment: formData.comment
+    }
+
+    const newComments = [...comments, newComment];
+    setComments(newComments);
+
+    console.log(formData);
   }
 
   return (
@@ -27,26 +60,31 @@ const HelloWorld = ({ text, dispatch }: Props) => {
       borderRadius: "10px"
       }}>
 
-      <form>
-        <TextField style={{width: "23%"}}
+      <form onSubmit={handleSubmit}>
+        <TextField style={{marginRight: "20px", width: "23%", backgroundColor:"#ffffff"}}
+        name="name"
         variant="outlined"
         id="name"
         label="Name"
-        color="primary"
+        onChange={handleChange}
         />
         
-        <TextField style={{marginLeft: "20px", width: "75%"}}
+        <TextField style={{width: "75%", backgroundColor:"#ffffff"}}
+          name="description"
           variant="outlined"
           id="description"
           label="Description"
+          onChange={handleChange}
           />
 
-        <TextField
+        <TextField style={{backgroundColor:"#ffffff"}}
+          name="comment"
           fullWidth
           variant="outlined"
           id="comment"
           label="Comment"
           margin="normal"
+          onChange={handleChange}
           />
 
         <div style={{
@@ -54,7 +92,12 @@ const HelloWorld = ({ text, dispatch }: Props) => {
           marginTop: "10px"
         }}>
           <Button type="reset" variant="outlined">Clear</Button>
-          <Button type="submit" variant="outlined" style={{marginLeft: "10px"}}>Add</Button>
+          <Button type="submit" 
+            variant="outlined" 
+            style={{marginLeft: "10px"}}
+            onClick={handleSubmit}
+            >Add
+          </Button>
         </div>
       </form>
     </div>
@@ -69,14 +112,17 @@ const HelloWorld = ({ text, dispatch }: Props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableRow>
-            <TableCell>Dummy</TableCell>
-            <TableCell>lorem ipsum dolor sit amet lorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit amet</TableCell>
+          {comments.map((comment) => (<TableRow>
+            <TableCell>{comment.name}</TableCell>
+            <TableCell>{comment.description}</TableCell>
             <TableCell align="right">
               <Button type="reset" variant="outlined">Delete</Button>
               <Button type="reset" variant="outlined" style={{marginLeft: "10px"}}>Details</Button>
+              
             </TableCell>
           </TableRow>
+          ))}
+          
         </TableBody>
       </Table>
       
@@ -89,14 +135,4 @@ const mapStateToProps = (state: ApplicationState) => ({
   text: state.text
 })
 
-export default connect(mapStateToProps)(HelloWorld)
-
-
-/*
-<Typography variant='h1'>Hello {text}</Typography>
-      <Button onClick={toggleText}>
-        Click Me!
-        <Icon>fingerprint</Icon>
-      </Button>
-
-*/
+export default connect(mapStateToProps)(Main)

@@ -40,6 +40,7 @@
     "less-loader": "5.0.0",
     "material-icons": "0.3.1",
     "mini-css-extract-plugin": "0.8.0",
+    "nanoid": "^3.1.30",
     "react": "16.9.0",
     "react-dom": "16.9.0",
     "react-redux": "7.1.0",
