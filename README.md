@@ -1,10 +1,10 @@
 # Jubic Oy | React challenge
 
-This repository contains a starting point and mockup for frontend developers applying to Jubic.
+This is my take on the Jubic React Challenge
 
-## UI Mockup
+## UI
 
-![UI Mockup](frontend_challenge_v1.png)
+![UI Mockup](jubic-react-challenge.png)
 
 
 ## Documentation
