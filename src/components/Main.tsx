@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Button, Modal, Box, Typography, TextField, Table, TableBody, TableCell, TableHead, TableRow} from '@material-ui/core'
 import { nanoid } from 'nanoid';
-
+import './styles.css';
 import data from "./data.json";
 import { ApplicationState } from '../reducer'
 
@@ -60,11 +60,6 @@ const Main = () => {
     setItems(newItems);
   }
 
-  const showDetails = (itemId: string) => {
-    const index = items.findIndex((item) => item.id === itemId)
-    alert(items[index].comment);
-  }
-
   const handleOpen = (itemId: string) => {
     const index = items.findIndex((item) => item.id === itemId)
     const newModalName = items[index].name;
@@ -81,72 +76,53 @@ const Main = () => {
 
   return (
     <>
-    <div style={{
-      height: "180px", 
-      backgroundColor: "#f6f6f6",
-      padding: "15px",
-      borderRadius: "10px"
-      }}>
-
+    <div className="topContainer">
       <form onSubmit={handleSubmit}>
-        <TextField style={{marginRight: "20px", width: "23%", backgroundColor:"#ffffff"}}
-        name="name"
-        variant="outlined"
-        id="name"
-        label="Name"
-        onChange={handleChange}
-        />
+        <TextField className="textFieldName"
+          name="name"
+          variant="outlined"
+          label="Name"
+          onChange={handleChange}/>
         
-        <TextField style={{width: "75%", backgroundColor:"#ffffff"}}
+        <TextField className="textFieldDescription"
           name="description"
           variant="outlined"
-          id="description"
           label="Description"
-          onChange={handleChange}
-          />
+          onChange={handleChange}/>
 
-        <TextField style={{backgroundColor:"#ffffff"}}
+        <TextField className="textFieldComment"
           name="comment"
-          fullWidth
           variant="outlined"
-          id="comment"
           label="Comment"
-          margin="normal"
-          onChange={handleChange}
-          />
+          onChange={handleChange}/>
 
-        <div style={{
-          float: "right",
-          marginTop: "10px"
-        }}>
+        <div className="buttonContainer">
           <Button type="reset" 
             variant="outlined"
-            onClick={handleClear}
-            >Clear
+            onClick={handleClear}> Clear 
           </Button>
           <Button type="submit" 
             variant="outlined" 
             style={{marginLeft: "10px"}}
-            onClick={handleSubmit}
-            >Add
+            onClick={handleSubmit}> Add
           </Button>
         </div>
       </form>
     </div>
     <br/>
-    <div style={{marginTop: "20px"}}>
+    <div className="marginTop20">
       <Table>
-        <TableHead style={{backgroundColor: "#f6f6f6"}}>
+        <TableHead className="tableHead">
           <TableRow>
-            <TableCell style={{borderRadius: "10px 0 0 0", fontSize: "15px"}}><b>Name</b></TableCell>
-            <TableCell style={{width: "50%", fontSize: "15px"}}><b>Description</b></TableCell>
-            <TableCell style={{borderRadius: "0 10px 0 0"}}></TableCell>
+            <TableCell className="tableHeadCellLeft"><b>Name</b></TableCell>
+            <TableCell className="tableHeadCellMid"><b>Description</b></TableCell>
+            <TableCell className="tableHeadCellRight"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {items.map((item) => (<TableRow>
-            <TableCell style={{wordWrap: "break-word"}}>{item.name}</TableCell>
-            <TableCell style={{wordWrap: "break-word"}}>{item.description}</TableCell>
+            <TableCell className="breakWord">{item.name}</TableCell>
+            <TableCell className="breakWord">{item.description}</TableCell>
             <TableCell align="right">
               <Button type="button" variant="outlined" onClick={() => handleDelete(item.id)}>Delete</Button>
               <Button type="button" variant="outlined" style={{marginLeft: "10px"}} onClick={() => handleOpen(item.id)}>Details</Button>
@@ -160,41 +136,27 @@ const Main = () => {
     </div>
 
     <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box style={{position: "absolute",
-          backgroundColor: "#f6f6f6",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: 400,
-          minHeight: 300,
-          height: "auto",
-          border: "1px solid #fefefe",
-          borderRadius: "10px"}}>
-          <Typography variant="h4" component="h2"
-            style={{textAlign: "center",
-            marginTop: "20px"
-            }}>
-            {modalName}
-          </Typography>
-          <Typography variant="h6" style={{margin: "25px 0px 0px 15px"}}>
-            Description
-          </Typography>
-          <Typography style={{margin: "5px 30px 0px 30px"}}>
-            {modalDescription}
-          </Typography>
-          <Typography variant="h6" style={{margin: "25px 0px 0px 15px"}}>
-            Comment
-          </Typography>
-          <Typography style={{margin: "5px 30px 0px 30px"}}>
-            {modalComment}
-          </Typography>
-        </Box>
-      </Modal>
+      open={open}
+      onClose={handleClose}
+    >
+    <Box className="modalBox">
+      <Typography variant="h4" component="h2" className="modalHeader">
+        {modalName}
+      </Typography>
+      <Typography variant="h6" className="modalHeader2">
+        Description
+      </Typography>
+      <Typography className="modalParagraph">
+        {modalDescription}
+      </Typography>
+      <Typography variant="h6" className="modalHeader2">
+        Comment
+      </Typography>
+      <Typography className="modalParagraph">
+        {modalComment}
+      </Typography>
+    </Box>
+  </Modal>
 
     </>
   )

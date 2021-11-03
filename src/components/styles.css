@@ -1,0 +1,86 @@
+.topContainer {
+    height: 180px;
+    background-color: #f6f6f6;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.textFieldName {
+    margin-right: 20px;
+    width: 25%;
+    background-color: #ffffff;
+}
+
+.textFieldDescription {
+    width: 75%;
+    background-color: #ffffff;
+}
+
+.textFieldComment {
+    background-color: #ffffff;
+    width: 100%;
+    margin: 20px 0px 5px 0px;
+}
+
+.buttonContainer {
+    float: right;
+    margin-top: 10px;
+}
+
+.marginTop20 {
+    margin-top: 20px;
+}
+
+.marginLeft10 {
+    margin-left: 10px;
+}
+
+.tableHead {
+    background-color: #f6f6f6;
+}
+
+.tableHeadCellLeft {
+    border-radius: 10px 0 0 0;
+}
+
+.tableHeadCellMid {
+    width: 50%;
+}
+
+.tableHeadCellRight {
+    border-radius: 0 10px 0 0;
+}
+
+b {
+    font-size: 15px;
+}
+
+.breakWord {
+    word-wrap: break-word;
+}
+
+.modalBox {
+    position: absolute;
+    background-color: #f6f6f6;
+    top: 25%;
+    left: 40%;
+    width: 400px;
+    min-height: 300px;
+    height: auto;
+    padding-bottom: 20px;
+    border: 1px solid #fefefe;
+    border-radius: 10px;
+}
+
+.modalHeader {
+    text-align: center;
+    padding-top: 20px;
+}
+
+.modalHeader2 {
+    padding: 25px 0px 0px 15px;
+}
+
+.modalParagraph {
+    padding: 5px 30px 0px 30px;
+}
