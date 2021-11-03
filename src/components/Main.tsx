@@ -48,7 +48,16 @@ const Main = () => {
     const newComments = [...comments, newComment];
     setComments(newComments);
 
-    console.log(formData);
+  }
+
+  const handleDelete = (commentId: string) => {
+    const newComments = [...comments];
+
+    const index = comments.findIndex((comment) => comment.id === commentId);
+
+    newComments.splice(index, 1);
+
+    setComments(newComments);
   }
 
   return (
@@ -116,8 +125,8 @@ const Main = () => {
             <TableCell>{comment.name}</TableCell>
             <TableCell>{comment.description}</TableCell>
             <TableCell align="right">
-              <Button type="reset" variant="outlined">Delete</Button>
-              <Button type="reset" variant="outlined" style={{marginLeft: "10px"}}>Details</Button>
+              <Button type="reset" variant="outlined" onClick={() => handleDelete(comment.id)}>Delete</Button>
+              <Button type="reset" variant="outlined" style={{marginLeft: "10px"}} onClick={() => alert("halloo")}>Details</Button>
               
             </TableCell>
           </TableRow>
