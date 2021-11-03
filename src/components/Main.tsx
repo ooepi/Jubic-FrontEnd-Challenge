@@ -19,8 +19,9 @@ const initialFormData:{[name:string]: string } = Object.freeze({
   comment: ''
 })
 
+
 const Main = () => {
-  const [comments, setComments] = useState(data);
+  const [items, setItems] = useState(data);
 
   const [formData, updateFormData] = useState(initialFormData);
 
@@ -28,36 +29,44 @@ const Main = () => {
     event.preventDefault();
     const fieldName = event.target.name;
     const fieldValue = event.target.value;
-
     const newFormData = { ...formData};
-    newFormData[fieldName] = fieldValue;
-
+    newFormData[fieldName] = fieldValue
     updateFormData(newFormData);
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const newComment = {
+    const newItem = {
       id: nanoid(),
       name: formData.name,
       description: formData.description,
       comment: formData.comment
     }
-
-    const newComments = [...comments, newComment];
-    setComments(newComments);
-
+    // Check if there are empty fields. Required attrribute won't work on the fields
+    if(!!(newItem.name && newItem.description && newItem.comment)){
+      const newItems = [...items, newItem];
+      setItems(newItems);
+    } else {
+      alert("Please fill out all the fields");
+    }
   }
 
-  const handleDelete = (commentId: string) => {
-    const newComments = [...comments];
+  const handleClear = () => {
+    //TODO implement a way to delete the object from state
+  }
 
-    const index = comments.findIndex((comment) => comment.id === commentId);
+  const handleDelete = (itemId: string) => {
+    const newItems = [...items];
+    const index = items.findIndex((item) => item.id === itemId);
+    newItems.splice(index, 1);
+    setItems(newItems);
+  }
 
-    newComments.splice(index, 1);
+  const showDetails = (itemId: string) => {
+    const index = items.findIndex((item) => item.id === itemId)
+    alert(items[index].comment);
 
-    setComments(newComments);
   }
 
   return (
@@ -100,7 +109,11 @@ const Main = () => {
           float: "right",
           marginTop: "10px"
         }}>
-          <Button type="reset" variant="outlined">Clear</Button>
+          <Button type="reset" 
+            variant="outlined"
+            onClick={handleClear}
+            >Clear
+          </Button>
           <Button type="submit" 
             variant="outlined" 
             style={{marginLeft: "10px"}}
@@ -121,12 +134,12 @@ const Main = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {comments.map((comment) => (<TableRow>
-            <TableCell>{comment.name}</TableCell>
-            <TableCell>{comment.description}</TableCell>
+          {items.map((item) => (<TableRow>
+            <TableCell>{item.name}</TableCell>
+            <TableCell>{item.description}</TableCell>
             <TableCell align="right">
-              <Button type="reset" variant="outlined" onClick={() => handleDelete(comment.id)}>Delete</Button>
-              <Button type="reset" variant="outlined" style={{marginLeft: "10px"}} onClick={() => alert("halloo")}>Details</Button>
+              <Button type="button" variant="outlined" onClick={() => handleDelete(item.id)}>Delete</Button>
+              <Button type="reset" variant="outlined" style={{marginLeft: "10px"}} onClick={() => showDetails(item.id)}>Details</Button>
               
             </TableCell>
           </TableRow>
@@ -145,3 +158,7 @@ const mapStateToProps = (state: ApplicationState) => ({
 })
 
 export default connect(mapStateToProps)(Main)
+
+function reset(name: void): React.MouseEventHandler<HTMLButtonElement> | undefined {
+  throw new Error('Function not implemented.');
+}
