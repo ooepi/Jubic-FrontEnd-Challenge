@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Button, Modal, Box, Typography, TextField, Table, TableBody, TableCell, TableHead, TableRow} from '@material-ui/core'
+import { Button, Modal, Box, Typography, TextField, Table, TableBody, TableCell, TableHead, TableRow, ButtonGroup} from '@material-ui/core'
 import { nanoid } from 'nanoid';
 import './styles.css';
 import data from "./data.json";
@@ -78,34 +78,44 @@ const Main = () => {
     <>
     <div className="topContainer">
       <form onSubmit={handleSubmit}>
-        <TextField className="textFieldName"
-          name="name"
-          variant="outlined"
-          label="Name"
-          onChange={handleChange}/>
-        
-        <TextField className="textFieldDescription"
-          name="description"
-          variant="outlined"
-          label="Description"
-          onChange={handleChange}/>
-
-        <TextField className="textFieldComment"
-          name="comment"
-          variant="outlined"
-          label="Comment"
-          onChange={handleChange}/>
+        <div className="nameDescDiv">
+          <TextField className="textFieldName"
+            name="name"
+            variant="outlined"
+            label="Name"
+            onChange={handleChange}/>  
+          <TextField className="textFieldDescription"
+            name="description"
+            variant="outlined"
+            label="Description"
+            onChange={handleChange}/>
+        </div>
+        <div className="textFieldComment">
+          <TextField 
+            fullWidth
+            name="comment"
+            variant="outlined"
+            label="Comment"
+            onChange={handleChange}/>
+        </div>
 
         <div className="buttonContainer">
-          <Button type="reset" 
-            variant="outlined"
-            onClick={handleClear}> Clear 
-          </Button>
-          <Button type="submit" 
-            variant="outlined" 
-            style={{marginLeft: "10px"}}
-            onClick={handleSubmit}> Add
-          </Button>
+          <ButtonGroup variant="contained">
+            <Button
+              type="reset" 
+              color="primary" 
+              variant="outlined"
+              onClick={handleClear}> 
+              Clear 
+            </Button>
+            <Button
+              type="submit" 
+              color="primary"
+              variant="outlined"
+              onClick={handleSubmit}> 
+              Add
+            </Button>
+          </ButtonGroup>
         </div>
       </form>
     </div>
@@ -121,16 +131,26 @@ const Main = () => {
         </TableHead>
         <TableBody>
           {items.map((item) => (<TableRow>
-            <TableCell className="breakWord">{item.name}</TableCell>
+            <TableCell className="breakWord, tableName">{item.name}</TableCell>
             <TableCell className="breakWord">{item.description}</TableCell>
             <TableCell align="right">
-              <Button type="button" variant="outlined" onClick={() => handleDelete(item.id)}>Delete</Button>
-              <Button type="button" variant="outlined" style={{marginLeft: "10px"}} onClick={() => handleOpen(item.id)}>Details</Button>
-              
+              <ButtonGroup variant="contained">
+                <Button type="button" 
+                  color="secondary"
+                  variant="outlined" 
+                  onClick={() => handleDelete(item.id)}>
+                  Delete
+                </Button>
+                <Button type="button"
+                  color="primary"
+                  variant="outlined" 
+                  onClick={() => handleOpen(item.id)}>
+                  Details
+                </Button>
+              </ButtonGroup>
             </TableCell>
           </TableRow>
           ))}
-          
         </TableBody>
       </Table>
     </div>
@@ -138,26 +158,25 @@ const Main = () => {
     <Modal
       open={open}
       onClose={handleClose}
-    >
-    <Box className="modalBox">
-      <Typography variant="h4" component="h2" className="modalHeader">
-        {modalName}
-      </Typography>
-      <Typography variant="h6" className="modalHeader2">
-        Description
-      </Typography>
-      <Typography className="modalParagraph">
-        {modalDescription}
-      </Typography>
-      <Typography variant="h6" className="modalHeader2">
-        Comment
-      </Typography>
-      <Typography className="modalParagraph">
-        {modalComment}
-      </Typography>
-    </Box>
-  </Modal>
-
+      >
+      <Box className="modalBox">
+        <Typography variant="h4" component="h2" className="modalHeader">
+          {modalName}
+        </Typography>
+        <Typography variant="h6" className="modalHeader2">
+          Description
+        </Typography>
+        <Typography className="modalParagraph">
+          {modalDescription}
+        </Typography>
+        <Typography variant="h6" className="modalHeader2">
+          Comment
+        </Typography>
+        <Typography className="modalParagraph">
+          {modalComment}
+        </Typography>
+      </Box>
+    </Modal>
     </>
   )
 }

@@ -5,9 +5,15 @@
     border-radius: 10px;
 }
 
+.nameDescDiv {
+    display: flex;
+    justify-content: space-between;
+}
+
 .textFieldName {
     margin-right: 20px;
-    width: 25%;
+    margin: 20px 20px 20px 20px;
+    width: 23%;
     background-color: #ffffff;
 }
 
@@ -18,7 +24,6 @@
 
 .textFieldComment {
     background-color: #ffffff;
-    width: 100%;
     margin: 20px 0px 5px 0px;
 }
 
@@ -57,6 +62,10 @@ b {
 
 .breakWord {
     word-wrap: break-word;
+}
+
+.tableName {
+    width: 150px;
 }
 
 .modalBox {
