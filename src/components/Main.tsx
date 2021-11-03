@@ -1,17 +1,10 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Dispatch } from 'redux'
-import { Button, Icon, Typography, TextField, Table, TableBody, TableCell, TableHead, TableRow} from '@material-ui/core'
+import { Button, Modal, Box, Typography, TextField, Table, TableBody, TableCell, TableHead, TableRow} from '@material-ui/core'
 import { nanoid } from 'nanoid';
 
 import data from "./data.json";
 import { ApplicationState } from '../reducer'
-
-interface Props {
-  text: string,
-  dispatch: Dispatch
-  
-}
 
 const initialFormData:{[name:string]: string } = Object.freeze({
   name: '',
@@ -22,19 +15,22 @@ const initialFormData:{[name:string]: string } = Object.freeze({
 
 const Main = () => {
   const [items, setItems] = useState(data);
+  const [formData, setFormData] = useState(initialFormData);
+  const [open, setOpen] = React.useState(false);
+  const [modalName, setModalName] = useState(String);
+  const [modalDescription, setModalDescription] = useState(String);
+  const [modalComment, setModalComment] = useState(String);
 
-  const [formData, updateFormData] = useState(initialFormData);
-
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     event.preventDefault();
     const fieldName = event.target.name;
     const fieldValue = event.target.value;
     const newFormData = { ...formData};
     newFormData[fieldName] = fieldValue
-    updateFormData(newFormData);
+    setFormData(newFormData);
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: any) => {
     event.preventDefault();
 
     const newItem = {
@@ -53,7 +49,8 @@ const Main = () => {
   }
 
   const handleClear = () => {
-    //TODO implement a way to delete the object from state
+    //TODO implement a way to delete the object from state,
+    //     Or prevent the addition of an item when the form is empty
   }
 
   const handleDelete = (itemId: string) => {
@@ -66,8 +63,21 @@ const Main = () => {
   const showDetails = (itemId: string) => {
     const index = items.findIndex((item) => item.id === itemId)
     alert(items[index].comment);
-
   }
+
+  const handleOpen = (itemId: string) => {
+    const index = items.findIndex((item) => item.id === itemId)
+    const newModalName = items[index].name;
+    setModalName(newModalName);
+    const newModalDescription = items[index].description;
+    setModalDescription(newModalDescription);
+    const newModalComment = items[index].comment;
+    setModalComment(newModalComment);
+
+    setOpen(true);
+  }
+
+  const handleClose = () => setOpen(false);
 
   return (
     <>
@@ -135,11 +145,11 @@ const Main = () => {
         </TableHead>
         <TableBody>
           {items.map((item) => (<TableRow>
-            <TableCell>{item.name}</TableCell>
-            <TableCell>{item.description}</TableCell>
+            <TableCell style={{wordWrap: "break-word"}}>{item.name}</TableCell>
+            <TableCell style={{wordWrap: "break-word"}}>{item.description}</TableCell>
             <TableCell align="right">
               <Button type="button" variant="outlined" onClick={() => handleDelete(item.id)}>Delete</Button>
-              <Button type="reset" variant="outlined" style={{marginLeft: "10px"}} onClick={() => showDetails(item.id)}>Details</Button>
+              <Button type="button" variant="outlined" style={{marginLeft: "10px"}} onClick={() => handleOpen(item.id)}>Details</Button>
               
             </TableCell>
           </TableRow>
@@ -147,8 +157,45 @@ const Main = () => {
           
         </TableBody>
       </Table>
-      
     </div>
+
+    <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box style={{position: "absolute",
+          backgroundColor: "#f6f6f6",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: 400,
+          minHeight: 300,
+          height: "auto",
+          border: "1px solid #fefefe",
+          borderRadius: "10px"}}>
+          <Typography variant="h4" component="h2"
+            style={{textAlign: "center",
+            marginTop: "20px"
+            }}>
+            {modalName}
+          </Typography>
+          <Typography variant="h6" style={{margin: "25px 0px 0px 15px"}}>
+            Description
+          </Typography>
+          <Typography style={{margin: "5px 30px 0px 30px"}}>
+            {modalDescription}
+          </Typography>
+          <Typography variant="h6" style={{margin: "25px 0px 0px 15px"}}>
+            Comment
+          </Typography>
+          <Typography style={{margin: "5px 30px 0px 30px"}}>
+            {modalComment}
+          </Typography>
+        </Box>
+      </Modal>
+
     </>
   )
 }
@@ -158,7 +205,3 @@ const mapStateToProps = (state: ApplicationState) => ({
 })
 
 export default connect(mapStateToProps)(Main)
-
-function reset(name: void): React.MouseEventHandler<HTMLButtonElement> | undefined {
-  throw new Error('Function not implemented.');
-}

@@ -13,6 +13,7 @@
   "author": "Jubic Oy",
   "license": "UNLICENSED",
   "devDependencies": {
+    "@types/react-modal": "^3.13.1",
     "react-hot-loader": "4.12.11",
     "webpack-dev-server": "3.7.1"
   },
@@ -43,6 +44,7 @@
     "nanoid": "^3.1.30",
     "react": "16.9.0",
     "react-dom": "16.9.0",
+    "react-modal": "^3.14.3",
     "react-redux": "7.1.0",
     "redux": "4.0.4",
     "style-loader": "1.0.0",
